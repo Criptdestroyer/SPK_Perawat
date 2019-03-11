@@ -1,8 +1,8 @@
 <?php
     defined('BASEPATH') OR exit('No direct script access allowed');
     /*
-    * author Ahmad Emir Alfatah
-    */
+     * author Ahmad Emir Alfatah
+     */
 
     class MY_Controller extends CI_Controller
     {
