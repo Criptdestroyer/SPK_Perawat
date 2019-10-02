@@ -20,9 +20,11 @@ class Admin extends MY_Controller {
 
     public function index()
     {
+        $this->load->model("perawat_m");
         $this->data['title'] ='Admin | Dashboard';
         $this->data['content'] = 'admin/main';
         $this->data['active'] = 0;
+        $this->data['perawat'] = $this->perawat_m->get();
 
         $this->load->view('admin/template/template', $this->data);
     }
