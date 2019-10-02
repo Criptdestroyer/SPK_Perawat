@@ -25,12 +25,12 @@
             </div>
             <h3>Welcome to Our Website</h3>
             <p>Log in</p>
-            <form class="m-t" role="form" action="<?=site_url("login")?>">
+            <form class="m-t" role="form" method="post" action="<?=site_url("login")?>">
                 <div class="form-group">
                     <input type="username" name="username" class="form-control" placeholder="Username" required="">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="username" class="form-control" placeholder="Password" required="">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required="">
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary block full-width m-b">Login</button>
 
