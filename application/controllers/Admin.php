@@ -87,7 +87,31 @@ class Admin extends MY_Controller {
 
     public function deleteUser($id)
     {
-        
+        $user = $this->user_m->get_row("id=".$id);
+        if($user->role == 5){
+            $perawat = $this->perawat_m->get_row("id=".$id);
+            $this->nilai_mengaji_m->delete_by("id_perawat=".$perawat->id_perawat);
+            $this->nilai_sholat_m->delete_by("id_perawat=".$perawat->id_perawat);
+            $this->nilai_tertulis_m->delete_by("id_perawat=".$perawat->id_perawat);
+            $this->sertifikat_m->delete_by("id_perawat=".$perawat->id_perawat);
+            $this->wawancara_m->delete_by("id_perawat=".$perawat->id_perawat);
+            $this->perawat_m->delete($perawat->id_perawat);
+            if($this->user_m->delete($id)){
+                echo "<script>alert('User berhasil dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
+                exit;
+            }else{
+                echo "<script>alert('User gagal dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
+                exit;
+            }
+        }else{
+            if($this->user_m->delete($id)){
+                echo "<script>alert('User berhasil dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
+                exit;
+            }else{
+                echo "<script>alert('User gagal dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
+                exit;
+            }
+        }
     }
 
     public function perawat()
