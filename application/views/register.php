@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title><?=$title?></title>
-
     <link href="<?= base_url() ?>assets/Admin/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/Admin/font-awesome/css/font-awesome.css" rel="stylesheet">
-
+    <link href="<?= base_url() ?>assets/Admin/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/Admin/css/animate.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/Admin/css/style.css" rel="stylesheet">
 </head>
@@ -19,22 +16,26 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-
                 <h1 class="logo-name">SPK</h1>
-
             </div>
-            <h3>Log in</h3>
-            <form class="m-t" role="form" method="post" action="<?=site_url("login")?>">
+            <h3>Register</h3>
+            <form class="m-t" role="form" method="post" action="<?=site_url('register')?>">
                 <div class="form-group">
-                    <input type="username" name="username" class="form-control" placeholder="Username" required="">
+                    <input type="text" name="name" class="form-control" placeholder="Name" required="">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="username" class="form-control" placeholder="Username" required="">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" class="form-control" placeholder="Email" required="">
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="Password" required="">
                 </div>
-                <button type="submit" name="submit" value="submit" class="btn btn-primary block full-width m-b">Login</button>
+                <button type="submit" name="submit" value="submit" class="btn btn-primary block full-width m-b">Register</button>
 
-                <p class="text-muted text-center"><small>Do not have an account?</small></p>
-                <a class="btn btn-sm btn-white btn-block" href="<?=site_url('register')?>">Create an account</a>
+                <p class="text-muted text-center"><small>Already have an account?</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="<?=site_url('login')?>">Login</a>
             </form>
         </div>
     </div>
@@ -43,7 +44,8 @@
     <script src="<?= base_url() ?>assets/Admin/js/jquery-3.1.1.min.js"></script>
     <script src="<?= base_url() ?>assets/Admin/js/popper.min.js"></script>
     <script src="<?= base_url() ?>assets/Admin/js/bootstrap.js"></script>
-
+    <!-- iCheck -->
+    <script src="<?= base_url() ?>assets/Admin/js/plugins/iCheck/icheck.min.js"></script>
 </body>
 
 </html>

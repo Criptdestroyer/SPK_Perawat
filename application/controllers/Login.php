@@ -28,16 +28,19 @@ class Login extends MY_Controller {
     }
     public function index()
     {
-        if($this->POST('username') && $this->POST('password')) {
-            $this->load->model('user_m');
-            if($this->user_m->cek_login(array('username' => $this->POST('username'), 'password' => $this->POST('password')))) {
-                redirect('Login');
-                exit;
-            } else {
-                echo "<script>alert('Username/password salah!');window.location = ".json_encode(site_url('Login')).";</script>";
-                exit;
+        if($this->post('submit')){
+            if($this->POST('username') && $this->POST('password')) {
+                $this->load->model('user_m');
+                if($this->user_m->cek_login(array('username' => $this->POST('username'), 'password' => $this->POST('password')))) {
+                    redirect('Login');
+                    exit;
+                } else {
+                    echo "<script>alert('Username/password salah!');window.location = ".json_encode(site_url('Login')).";</script>";
+                    exit;
+                }
             }
         }
+        
         $this->data['title'] = 'Login | SPK Perawat';
         $this->load->view('login', $this->data);
     }
