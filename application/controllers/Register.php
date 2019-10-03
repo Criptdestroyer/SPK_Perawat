@@ -23,6 +23,8 @@ class Register extends MY_Controller {
                     break;
                 case 4:
                     redirect('perawat');
+                case 5:
+                    redirect('perawat');
             }
             exit;
         }

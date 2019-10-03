@@ -23,6 +23,17 @@
     <script src="<?= base_url() ?>assets/Admin/js/plugins/dataTables/datatables.min.js"></script>
     <script src="<?= base_url() ?>assets/Admin/js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
 
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.i-checks').iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+            });
+        </script>
+
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function(){

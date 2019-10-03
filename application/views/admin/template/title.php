@@ -11,6 +11,8 @@
     <link href="<?= base_url() ?>assets/Admin/font-awesome/css/font-awesome.css" rel="stylesheet">
 
     <link href="<?= base_url() ?>assets/Admin/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    <link href="<?= base_url() ?>assets/Admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="<?= base_url() ?>assets/Admin/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
     <link href="<?= base_url() ?>assets/Admin/css/animate.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/Admin/css/style.css" rel="stylesheet">

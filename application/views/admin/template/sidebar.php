@@ -12,10 +12,10 @@
                         </div>
                     </li>
                     <li class="<?php if($active == 0) echo "active"?>">
-                        <a href="<?=site_url('admin')?>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
+                        <a href="<?=site_url('admin')?>"><i class="fa fa-th-large"></i> <span class="nav-label">User</span></a>
                     </li>
-                    <li>
-                        <a href="layouts.html"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span></a>
+                    <li class="<?php if($active == 1) echo "active"?>">
+                        <a href="<?=site_url('admin/perawat')?>"><i class="fa fa-diamond"></i> <span class="nav-label">perawat</span></a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Graphs</span><span class="fa arrow"></span></a>
