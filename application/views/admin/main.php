@@ -52,8 +52,8 @@
                                 ?>
                             </td>
                             <td>
-                                <button class="btn btn-warning" href="Admin/editUser/<?=$p->id?>">Edit</button>
-                                <button class="btn btn-danger" href="Admin/deleteUser/<?=$p->id?>">Delete</button>
+                                <button class="btn btn-warning" href="<?=site_url('Admin/editUser/'.$p->id)?>">Edit</button>
+                                <button class="btn btn-danger" href="<?=site_url('Admin/deleteUser/'.$p->id)?>">Delete</button>
                             </td>
                         </tr>
                     <?php

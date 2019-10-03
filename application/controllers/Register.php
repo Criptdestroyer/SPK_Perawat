@@ -43,16 +43,8 @@ class Register extends MY_Controller {
                 ];
 
                 if($this->user_m->insert($data)){
-                    $user = $this->user_m->get_row("nama='".$this->POST('name')."' and username='".$this->POST('username')."' and email='".$this->POST('email')."' and password='".md5($this->POST('password'))."' and role=4"); 
-                    $this->load->model('perawat_m');
-                    if($this->perawat_m->insert(['id'=>$user->id, 'nama'=>$user->nama])){
-                        echo "<script>alert('Pendaftaran Berhasil');window.location = ".json_encode(site_url('Login')).";</script>";
-                        exit;
-                    }else{
-                        $this->user_m->delete($user->id); 
-                        echo "<script>alert('Pendaftaran Gagal');window.location = ".json_encode(site_url('Register')).";</script>";
-                        exit;
-                    }
+                    echo "<script>alert('Pendaftaran Berhasil');window.location = ".json_encode(site_url('Login')).";</script>";
+                    exit;
                 }else{
                     echo "<script>alert('Pendaftaran Gagal');window.location = ".json_encode(site_url('Register')).";</script>";
                     exit;
