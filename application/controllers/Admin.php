@@ -85,6 +85,51 @@ class Admin extends MY_Controller {
         $this->load->view('admin/template/template', $this->data);
     }
 
+    public function editUser($id){
+        $this->data['user'] = $this->user_m->get_row("id=".$id);
+        if($this->POST('submit')){
+            $data = [
+                'nama' => $this->POST('nama'),
+                'username' => $this->POST('username'),
+                'email' => $this->POST('email'),
+                'role' => $this->POST('role')
+            ];
+
+            if($this->POST('role') == 5){
+                if($this->user_m->update($id,$data)){
+                    $user = $this->user_m->get_row($data);
+                    $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama]);
+                    $perawat = $this->perawat_m->get_row("id=".$user->id);
+
+                    $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                    $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                    $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                    $this->sertifikat_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                    $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                    echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
+                    exit;
+                }else{
+                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
+                    exit;
+                }
+            }else{
+                if($this->user_m->update($id, $data)){
+                    echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
+                    exit;
+                }else{
+                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
+                    exit;
+                }
+            }
+
+        }
+        $this->data['title'] = 'Admin | Edit User';
+        $this->data['content'] = 'admin/editUser';
+        $this->data['active'] = 0;
+
+        $this->load->view('admin/template/template', $this->data);
+    }
+
     public function deleteUser($id)
     {
         $user = $this->user_m->get_row("id=".$id);
