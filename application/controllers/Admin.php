@@ -109,7 +109,7 @@ class Admin extends MY_Controller {
                     echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
                     exit;
                 }else{
-                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
+                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser')).";</script>";
                     exit;
                 }
             }else{
@@ -117,7 +117,7 @@ class Admin extends MY_Controller {
                     echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
                     exit;
                 }else{
-                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
+                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser')).";</script>";
                     exit;
                 }
             }
@@ -166,6 +166,35 @@ class Admin extends MY_Controller {
         $this->data['active'] = 1;
         $this->data['perawat'] = $this->perawat_m->get();
 
+        $this->load->view('admin/template/template', $this->data);
+    }
+
+    public function updatePerawat($id)
+    {
+        $this->data['perawat'] = $this->perawat_m->get_row("id_perawat=".$id);
+
+        if($this->POST("submit")){
+            $data = [
+                "nama" => $this->POST("nama"),
+                "tanggal_lahir" => $this->POST("tanggal_lahir"),
+                'alamat' => $this->POST('alamat'),
+                'no_hp' => $this->POST('no_hp'),
+                'jenis_kelamin' => $this->POST('jenis_kelamin')
+            ];
+
+            if($this->perawat_m->update($id, $data)){
+                echo "<script>alert('Perawat berhasil diupdate');window.location = ".json_encode(site_url('Admin/perawat')).";</script>";
+                exit;
+            }else{
+                echo "<script>alert('Perawat gagal diupdate');window.location = ".json_encode(site_url('Admin/update/Perawat')).";</script>";
+                exit;
+            }
+        }
+
+        $this->data['title'] ='Admin | Update Perawat';
+        $this->data['content'] = 'admin/updatePerawat';
+        $this->data['active'] = 1;
+        
         $this->load->view('admin/template/template', $this->data);
     }
 }

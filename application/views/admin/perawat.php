@@ -35,8 +35,7 @@
                             <td><?=$p->no_hp?></td>
                             <td><?=$p->jenis_kelamin?></td>
                             <td>
-                                <button class="btn btn-warning" href="Admin/editPerawat/<?=$p->id_perawat?>">Edit</button>
-                                <button class="btn btn-danger" href="Admin/deletePerawat/<?=$p->id_perawat?>">Delete</button>
+                                <a class="btn btn-warning" href="<?=site_url("Admin/updatePerawat/".$p->id_perawat)?>">Update</a>
                             </td>
                         </tr>
                     <?php
