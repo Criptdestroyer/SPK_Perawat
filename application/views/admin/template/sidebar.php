@@ -17,29 +17,17 @@
                     <li class="<?php if($active == 1) echo "active"?>">
                         <a href="<?=site_url('admin/perawat')?>"><i class="fa fa-diamond"></i> <span class="nav-label">perawat</span></a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Graphs</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="graph_flot.html">Flot Charts</a></li>
-                        </ul>
+                    <li class="<?php if($active == 2) echo "active"?>">
+                        <a href="<?=site_url('admin/nilaiMengaji')?>"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Nilai Mengaji</span></span></a>
                     </li>
-                    <li>
-                        <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right">16/24</span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="mailbox.html">Inbox</a></li>
-                        </ul>
+                    <li class="<?php if($active == 3) echo "active"?>">
+                        <a href="<?=site_url('admin/nilaiSholat')?>"><i class="fa fa-pie-chart"></i> <span class="nav-label">Nilai Praktik Sholat</span></a>
                     </li>
-                    <li>
-                        <a href="metrics.html"><i class="fa fa-pie-chart"></i> <span class="nav-label">Metrics</span>  </a>
+                    <li class="<?php if($active == 4) echo "active"?>">
+                        <a href="<?=site_url('admin/nilaiTertulis')?>"><i class="fa fa-flask"></i> <span class="nav-label">Nilai Tertulis</span></a>
                     </li>
-                    <li>
-                        <a href="widgets.html"><i class="fa fa-flask"></i> <span class="nav-label">Widgets</span></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Forms</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="form_basic.html">Basic form</a></li>
-                        </ul>
+                    <li class="<?php if($active == 5) echo "active"?>">
+                        <a href="<?=site_url('admin/hasilPerhitungan')?>"><i class="fa fa-edit"></i> <span class="nav-label">Hasil Perhitungan</span></a>
                     </li>
             </div>
         </nav>

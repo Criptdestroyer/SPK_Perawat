@@ -197,6 +197,36 @@ class Admin extends MY_Controller {
         
         $this->load->view('admin/template/template', $this->data);
     }
+
+    public function nilaiMengaji()
+    {
+        $this->data['title'] ='Admin | Nilai Mengaji';
+        $this->data['content'] = 'admin/nilaiMengaji';
+        $this->data['active'] = 2;
+        $this->data['perawat'] = $this->nilai_mengaji_m->getDataJoin(['perawat'],['perawat.id_perawat = nilai_mengaji.id_perawat']);
+
+        $this->load->view('admin/template/template', $this->data);
+    }
+
+    public function nilaiSholat()
+    {
+        $this->data['title'] ='Admin | Nilai Praktik Sholat';
+        $this->data['content'] = 'admin/nilaiSholat';
+        $this->data['active'] = 3;
+        $this->data['perawat'] = $this->nilai_sholat_m->getDataJoin(['perawat'],['perawat.id_perawat = nilai_praktek_sholat.id_perawat']);
+
+        $this->load->view('admin/template/template', $this->data);
+    }
+
+    public function nilaiTertulis()
+    {
+        $this->data['title'] ='Admin | Nilai Tertulis';
+        $this->data['content'] = 'admin/nilaiTertulis';
+        $this->data['active'] = 4;
+        $this->data['perawat'] = $this->nilai_tertulis_m->getDataJoin(['perawat'],['perawat.id_perawat = nilai_tertulis.id_perawat']);
+
+        $this->load->view('admin/template/template', $this->data);
+    }
 }
 
 /* End of file Admin.php */
