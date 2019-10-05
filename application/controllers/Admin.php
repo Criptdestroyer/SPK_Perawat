@@ -57,7 +57,6 @@ class Admin extends MY_Controller {
                         $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
                         $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
                         $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        $this->sertifikat_m->insert(["id_perawat"=>$perawat->id_perawat]);
                         $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
                         echo "<script>alert('User berhasil ditambah');window.location = ".json_encode(site_url('Admin')).";</script>";
                         exit;
@@ -104,7 +103,6 @@ class Admin extends MY_Controller {
                     $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
                     $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
                     $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    $this->sertifikat_m->insert(["id_perawat"=>$perawat->id_perawat]);
                     $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
                     echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
                     exit;
@@ -138,7 +136,6 @@ class Admin extends MY_Controller {
             $this->nilai_mengaji_m->delete_by("id_perawat=".$perawat->id_perawat);
             $this->nilai_sholat_m->delete_by("id_perawat=".$perawat->id_perawat);
             $this->nilai_tertulis_m->delete_by("id_perawat=".$perawat->id_perawat);
-            $this->sertifikat_m->delete_by("id_perawat=".$perawat->id_perawat);
             $this->wawancara_m->delete_by("id_perawat=".$perawat->id_perawat);
             $this->perawat_m->delete($perawat->id_perawat);
             if($this->user_m->delete($id)){
@@ -208,7 +205,8 @@ class Admin extends MY_Controller {
         $this->load->view('admin/template/template', $this->data);
     }
 
-    public function updateNilaiMengaji($id){
+    public function updateNilaiMengaji($id)
+    {
         $this->data['perawat'] = $this->nilai_mengaji_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_mengaji.id_perawat'],"id_perawat=".$id);
 
         if($this->POST("submit")){
@@ -242,7 +240,8 @@ class Admin extends MY_Controller {
         $this->load->view('admin/template/template', $this->data);
     }
 
-    public function updateNilaiSholat($id){
+    public function updateNilaiSholat($id)
+    {
         $this->data['perawat'] = $this->nilai_sholat_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_praktek_sholat.id_perawat'],"id_perawat=".$id);
 
         if($this->POST("submit")){
@@ -277,7 +276,8 @@ class Admin extends MY_Controller {
         $this->load->view('admin/template/template', $this->data);
     }
 
-    public function updateNilaiTertulis($id){
+    public function updateNilaiTertulis($id)
+    {
         $this->data['perawat'] = $this->nilai_tertulis_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_tertulis.id_perawat'],"id_perawat=".$id);
 
         if($this->POST("submit")){
@@ -300,6 +300,24 @@ class Admin extends MY_Controller {
         $this->data['title'] ='Admin | Update Nilai Tertulis';
         $this->data['content'] = 'admin/updateNilaiTertulis';
         $this->data['active'] = 4;
+        $this->load->view('admin/template/template', $this->data);
+    }
+
+    public function hasilPerhitungan()
+    {
+        $this->data['title'] ='Admin | Hasil Perhitungan';
+        $this->data['content'] = 'admin/hasilPerhitungan';
+        $this->data['active'] = 5;
+        $this->data['perawat'] = $this->perawat_m->getDataJoin(
+            ['nilai_tertulis','nilai_mengaji','nilai_praktek_sholat', 'wawancara'],
+            [
+                'perawat.id_perawat = nilai_tertulis.id_perawat',
+                'perawat.id_perawat = nilai_mengaji.id_perawat',
+                'perawat.id_perawat = nilai_praktek_sholat.id_perawat',
+                'perawat.id_perawat = wawancara.id_perawat'
+                ]
+        );
+
         $this->load->view('admin/template/template', $this->data);
     }
 }
