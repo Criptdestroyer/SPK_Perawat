@@ -33,7 +33,7 @@
                             <td><?=$p->bacaan_surat?></td>
                             <td><?=$p->gerakan?></td>
                             <td>
-                                <a class="btn btn-warning" href="<?=site_url("Admin/updateNilaiSholat/".$p->id)?>">Update</a>
+                                <a class="btn btn-warning" href="<?=site_url("Admin/updateNilaiSholat/".$p->id_perawat)?>">Update</a>
                             </td>
                         </tr>
                     <?php

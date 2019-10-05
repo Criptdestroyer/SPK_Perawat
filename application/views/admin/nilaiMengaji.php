@@ -31,7 +31,7 @@
                             <td><?=$p->ilmu_tajwid?></td>
                             <td><?=$p->lapal?></td>
                             <td>
-                                <a class="btn btn-warning" href="<?=site_url("Admin/updateNilaiMengaji/".$p->id)?>">Update</a>
+                                <a class="btn btn-warning" href="<?=site_url("Admin/updateNilaiMengaji/".$p->id_perawat)?>">Update</a>
                             </td>
                         </tr>
                     <?php

@@ -109,7 +109,7 @@ class Admin extends MY_Controller {
                     echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
                     exit;
                 }else{
-                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser')).";</script>";
+                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
                     exit;
                 }
             }else{
@@ -117,7 +117,7 @@ class Admin extends MY_Controller {
                     echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
                     exit;
                 }else{
-                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser')).";</script>";
+                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
                     exit;
                 }
             }
@@ -186,7 +186,7 @@ class Admin extends MY_Controller {
                 echo "<script>alert('Perawat berhasil diupdate');window.location = ".json_encode(site_url('Admin/perawat')).";</script>";
                 exit;
             }else{
-                echo "<script>alert('Perawat gagal diupdate');window.location = ".json_encode(site_url('Admin/update/Perawat')).";</script>";
+                echo "<script>alert('Perawat gagal diupdate');window.location = ".json_encode(site_url('Admin/updatePerawat/'.$id)).";</script>";
                 exit;
             }
         }
@@ -208,6 +208,30 @@ class Admin extends MY_Controller {
         $this->load->view('admin/template/template', $this->data);
     }
 
+    public function updateNilaiMengaji($id){
+        $this->data['perawat'] = $this->nilai_mengaji_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_mengaji.id_perawat'],"id_perawat=".$id);
+
+        if($this->POST("submit")){
+            $data = [
+                'ilmu_tajwid'=>$this->POST('ilmu_tajwid'),
+                'lapal'=>$this->POST('lapal')
+            ];
+
+            if($this->nilai_mengaji_m->update_where("id_perawat=".$id, $data)){
+                echo "<script>alert('Nilai Mengaji berhasil diupdate');window.location = ".json_encode(site_url('Admin/nilaiMengaji')).";</script>";
+                exit;
+            }else{
+                echo "<script>alert('Nilai Mengaji gagal diupdate');window.location = ".json_encode(site_url('Admin/updateNilaiMengaji/'.$id)).";</script>";
+                exit;
+            }
+        }
+
+        $this->data['title'] ='Admin | Update Nilai Mengaji';
+        $this->data['content'] = 'admin/updateNilaiMengaji';
+        $this->data['active'] = 2;
+        $this->load->view('admin/template/template', $this->data);
+    }
+
     public function nilaiSholat()
     {
         $this->data['title'] ='Admin | Nilai Praktik Sholat';
@@ -218,6 +242,31 @@ class Admin extends MY_Controller {
         $this->load->view('admin/template/template', $this->data);
     }
 
+    public function updateNilaiSholat($id){
+        $this->data['perawat'] = $this->nilai_sholat_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_praktek_sholat.id_perawat'],"id_perawat=".$id);
+
+        if($this->POST("submit")){
+            $data = [
+                'niat'=>$this->POST('niat'),
+                'bacaan_surat'=>$this->POST('bacaan_surat'),
+                'gerakan'=>$this->POST('gerakan')
+            ];
+
+            if($this->nilai_sholat_m->update_where("id_perawat=".$id, $data)){
+                echo "<script>alert('Nilai Praktek Sholat berhasil diupdate');window.location = ".json_encode(site_url('Admin/nilaiSholat')).";</script>";
+                exit;
+            }else{
+                echo "<script>alert('Nilai Praktek Sholat gagal diupdate');window.location = ".json_encode(site_url('Admin/updateNilaiSholat/'.$id)).";</script>";
+                exit;
+            }
+        }
+
+        $this->data['title'] ='Admin | Update Nilai Praktek Sholat';
+        $this->data['content'] = 'admin/updateNilaiSholat';
+        $this->data['active'] = 3;
+        $this->load->view('admin/template/template', $this->data);
+    }
+
     public function nilaiTertulis()
     {
         $this->data['title'] ='Admin | Nilai Tertulis';
@@ -225,6 +274,32 @@ class Admin extends MY_Controller {
         $this->data['active'] = 4;
         $this->data['perawat'] = $this->nilai_tertulis_m->getDataJoin(['perawat'],['perawat.id_perawat = nilai_tertulis.id_perawat']);
 
+        $this->load->view('admin/template/template', $this->data);
+    }
+
+    public function updateNilaiTertulis($id){
+        $this->data['perawat'] = $this->nilai_tertulis_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_tertulis.id_perawat'],"id_perawat=".$id);
+
+        if($this->POST("submit")){
+            $data = [
+                'pengetahuan_umum'=>$this->POST('pengetahuan_umum'),
+                'nama_penyakit'=>$this->POST('nama_penyakit'),
+                'kode_penyakit'=>$this->POST('kode_penyakit'),
+                'indikator_rumahsakit'=>$this->POST('indikator_rumahsakit')
+            ];
+
+            if($this->nilai_tertulis_m->update_where("id_perawat=".$id, $data)){
+                echo "<script>alert('Nilai Tertulis berhasil diupdate');window.location = ".json_encode(site_url('Admin/nilaiTertulis')).";</script>";
+                exit;
+            }else{
+                echo "<script>alert('Nilai Tertulis gagal diupdate');window.location = ".json_encode(site_url('Admin/updateNilaiTertulis/'.$id)).";</script>";
+                exit;
+            }
+        }
+
+        $this->data['title'] ='Admin | Update Nilai Tertulis';
+        $this->data['content'] = 'admin/updateNilaiTertulis';
+        $this->data['active'] = 4;
         $this->load->view('admin/template/template', $this->data);
     }
 }

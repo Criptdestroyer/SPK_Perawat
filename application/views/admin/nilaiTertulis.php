@@ -35,7 +35,7 @@
                             <td><?=$p->kode_penyakit?></td>
                             <td><?=$p->indikator_rumahsakit?></td>
                             <td>
-                                <a class="btn btn-warning" href="<?=site_url("Admin/updateNilaiTertulis/".$p->id)?>">Update</a>
+                                <a class="btn btn-warning" href="<?=site_url("Admin/updateNilaiTertulis/".$p->id_perawat)?>">Update</a>
                             </td>
                         </tr>
                     <?php
