@@ -143,7 +143,8 @@ class MY_Model extends CI_Model
 		$this->db->select('*');
 		for ($i = 0; $i < count($tables); $i++)
 			$this->db->join($tables[$i], $jcond[$i]);
-		return $this->db->get($this->data['table_name'],$where)->row();
+			$this->db->where($where);
+		return $this->db->get($this->data['table_name'])->row();
 	}
 
 	public function getJSON($url)

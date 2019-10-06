@@ -18,7 +18,7 @@ class Login extends MY_Controller {
                     redirect('direktur');
                     break;
                 case 3:
-                    redirect('pewancara');
+                    redirect('pewawancara');
                     break;
                 case 4:
                     redirect('perawat');

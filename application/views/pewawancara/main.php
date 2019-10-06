@@ -1,6 +1,10 @@
 <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Hasil Perhitungan</h2>
+                    <h2>Data Nilai Wawancara</h2>
+                </div>
+                
+                <div class="col-lg-2">
+                
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRight">
@@ -15,32 +19,24 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Nilai Mengaji</th>
-                            <th>Nilai Praktik Sholat</th>
-                            <th>Nilai Tertulis</th>
-                            <th>Wawancara</th>
-                            <th>Sertifikat</th>
+                            <th>Bahasa Inggris</th>
+                            <th>Psikotes</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php
                         $i = 1;
                         foreach($perawat as $p){
-                            $sert = 0;
-                            foreach($sertifikat as $s){
-                                if($s->id_perawat == $p->id_perawat){
-                                    $sert++;
-                                }
-                            }
                     ?>
                         <tr class="gradeX">
                             <td><?=$i++?></td>
                             <td><?=$p->nama?></td>
-                            <td><?=($p->ilmu_tajwid+$p->lapal)/2?></td>
-                            <td><?=($p->niat+$p->bacaan_surat+$p->gerakan)/3?></td>
-                            <td><?=($p->pengetahuan_umum+$p->nama_penyakit+$p->kode_penyakit+$p->indikator_rumahsakit)/4?></td>
-                            <td><?=($p->b_inggris+$p->psikotes)/2?></td>
-                            <td><?=$sert?></td>
+                            <td><?=$p->b_inggris?></td>
+                            <td><?=$p->psikotes?></td>
+                            <td>
+                                <a class="btn btn-warning" href="<?=site_url('Pewawancara/updateNilaiWawancara/'.$p->id_perawat)?>">Update</a>
+                            </td>
                         </tr>
                     <?php
                         }
@@ -48,13 +44,11 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                        <th>No</th>
+                            <th>No</th>
                             <th>Nama</th>
-                            <th>Nilai Mengaji</th>
-                            <th>Nilai Praktik Sholat</th>
-                            <th>Nilai Tertulis</th>
-                            <th>Wawancara</th>
-                            <th>Sertifikat</th>
+                            <th>Bahasa Inggris</th>
+                            <th>Psikotes</th>
+                            <th>Aksi</th>
                         </tr>
                     </tfoot>
                     </table>

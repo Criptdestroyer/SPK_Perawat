@@ -1,28 +1,30 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin extends MY_Controller {
+class Perawat extends MY_Controller {
     
     public function __construct()
     {
         parent::__construct();
         $this->load->library('session');
-        $this->load->model('user_m');
         $this->load->model('perawat_m');
-        $this->load->model('nilai_mengaji_m');
-        $this->load->model('nilai_sholat_m');
-        $this->load->model('nilai_tertulis_m');
         $this->load->model('sertifikat_m');
-        $this->load->model('wawancara_m');
 
         $this->data['username'] = $this->session->userdata('username');
         $this->data['id_role']  = $this->session->userdata('id_role');
-        if(!isset($this->data['username']) || $this->data['id_role'] != 1)
+        if(!isset($this->data['username']) || $this->data['id_role'] != 5)
         {
-            $this->session->unset_userdata('username');
-            $this->session->unset_userdata('id_role');
-            echo "<script>alert('you must login first');window.location = ".json_encode(site_url('Login')).";</script>";
-            exit;
+            if($this->data['id_role'] == 4){
+                $this->session->unset_userdata('username');
+                $this->session->unset_userdata('id_role');
+                echo "<script>alert('Anda belum tervalidasi oleh admin. silahkan coba login beberapa saat lagi');window.location = ".json_encode(site_url('Login')).";</script>";
+                exit;
+            }else{
+                $this->session->unset_userdata('username');
+                $this->session->unset_userdata('id_role');
+                echo "<script>alert('you must login first');window.location = ".json_encode(site_url('Login')).";</script>";
+                exit;
+            }
         }
     }
 
@@ -94,7 +96,7 @@ class Admin extends MY_Controller {
                 'role' => $this->POST('role')
             ];
 
-            if($this->POST('role') == 5 && $this->data['user']->role != 5){
+            if($this->POST('role') == 5){
                 if($this->user_m->update($id,$data)){
                     $user = $this->user_m->get_row($data);
                     $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama]);
@@ -111,29 +113,12 @@ class Admin extends MY_Controller {
                     exit;
                 }
             }else{
-                if($this->POST('role') == 4 && $this->data['user']->role != 4){
-                    $perawat = $this->perawat_m->get_row("id=".$id);
-                    $this->nilai_mengaji_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->nilai_sholat_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->nilai_tertulis_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->wawancara_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->sertifikat_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->perawat_m->delete_by("id=".$id);
-                    if($this->user_m->update($id, $data)){
-                        echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
-                        exit;
-                    }else{
-                        echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
-                        exit;
-                    }
+                if($this->user_m->update($id, $data)){
+                    echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
+                    exit;
                 }else{
-                    if($this->user_m->update($id, $data)){
-                        echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
-                        exit;
-                    }else{
-                        echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
-                        exit;
-                    }
+                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
+                    exit;
                 }
             }
 
@@ -154,8 +139,7 @@ class Admin extends MY_Controller {
             $this->nilai_sholat_m->delete_by("id_perawat=".$perawat->id_perawat);
             $this->nilai_tertulis_m->delete_by("id_perawat=".$perawat->id_perawat);
             $this->wawancara_m->delete_by("id_perawat=".$perawat->id_perawat);
-            $this->sertifikat_m->delete_by("id_perawat=".$perawat->id_perawat);
-            $this->perawat_m->delete_by("id=".$id);
+            $this->perawat_m->delete($perawat->id_perawat);
             if($this->user_m->delete($id)){
                 echo "<script>alert('User berhasil dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
                 exit;
