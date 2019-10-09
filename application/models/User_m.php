@@ -16,7 +16,8 @@ class User_m extends MY_Model {
         if(isset($num)) {
             $array = array(
                 'username' => $num->username,
-                'id_role' => $num->role
+                'id_role' => $num->role,
+                'id' => $num->id,
             );
             $this->session->set_userdata($array);
             return true;

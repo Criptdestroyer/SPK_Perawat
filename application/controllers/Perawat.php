@@ -17,11 +17,13 @@ class Perawat extends MY_Controller {
             if($this->data['id_role'] == 4){
                 $this->session->unset_userdata('username');
                 $this->session->unset_userdata('id_role');
+                $this->session->unset_userdata('id');
                 echo "<script>alert('Anda belum tervalidasi oleh admin. silahkan coba login beberapa saat lagi');window.location = ".json_encode(site_url('Login')).";</script>";
                 exit;
             }else{
                 $this->session->unset_userdata('username');
                 $this->session->unset_userdata('id_role');
+                $this->session->unset_userdata('id');
                 echo "<script>alert('you must login first');window.location = ".json_encode(site_url('Login')).";</script>";
                 exit;
             }
@@ -30,147 +32,18 @@ class Perawat extends MY_Controller {
 
     public function index()
     {
-        $this->data['title'] ='Admin | User';
-        $this->data['content'] = 'admin/main';
+        $this->data['title'] ='Perawat | Data Perawat';
+        $this->data['content'] = 'perawat/main';
         $this->data['active'] = 0;
-        $this->data['user'] = $this->user_m->get();
+        $this->data['perawat'] = $this->perawat_m->get_row("id=".$this->session->userdata('id'));
 
-        $this->load->view('admin/template/template', $this->data);
+        $this->load->view('perawat/template/template', $this->data);
     }
 
-    public function addUser()
+    public function updatePerawat()
     {
-        if($this->POST('submit')){
-            if($this->POST('username') && $this->POST('password')) {
-                $data = [
-                    'nama' => $this->POST('nama'),
-                    'username' => $this->POST('username'),
-                    'email' => $this->POST('email'),
-                    'password' => md5($this->POST('password')),
-                    'role' => $this->POST('role')
-                ];
-
-                if($this->POST('role') == 5){
-                    if($this->user_m->insert($data)){
-                        $user = $this->user_m->get_row($data);
-                        $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama]);
-                        $perawat = $this->perawat_m->get_row("id=".$user->id);
-
-                        $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        echo "<script>alert('User berhasil ditambah');window.location = ".json_encode(site_url('Admin')).";</script>";
-                        exit;
-                    }else{
-                        echo "<script>alert('User gagal ditambah');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
-                        exit;
-                    }
-                }else{
-                    if($this->user_m->insert($data)){
-                        echo "<script>alert('User berhasil ditambah');window.location = ".json_encode(site_url('Admin')).";</script>";
-                        exit;
-                    }else{
-                        echo "<script>alert('User gagal ditambah');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
-                        exit;
-                    }
-                }
-            }
-        }
-
-
-        $this->data['title'] ='Admin | Add User';
-        $this->data['content'] = 'admin/addUser';
-        $this->data['active'] = 0;
-    
-        $this->load->view('admin/template/template', $this->data);
-    }
-
-    public function editUser($id){
-        $this->data['user'] = $this->user_m->get_row("id=".$id);
-        if($this->POST('submit')){
-            $data = [
-                'nama' => $this->POST('nama'),
-                'username' => $this->POST('username'),
-                'email' => $this->POST('email'),
-                'role' => $this->POST('role')
-            ];
-
-            if($this->POST('role') == 5){
-                if($this->user_m->update($id,$data)){
-                    $user = $this->user_m->get_row($data);
-                    $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama]);
-                    $perawat = $this->perawat_m->get_row("id=".$user->id);
-
-                    $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
-                    exit;
-                }else{
-                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
-                    exit;
-                }
-            }else{
-                if($this->user_m->update($id, $data)){
-                    echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
-                    exit;
-                }else{
-                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
-                    exit;
-                }
-            }
-
-        }
-        $this->data['title'] = 'Admin | Edit User';
-        $this->data['content'] = 'admin/editUser';
-        $this->data['active'] = 0;
-
-        $this->load->view('admin/template/template', $this->data);
-    }
-
-    public function deleteUser($id)
-    {
-        $user = $this->user_m->get_row("id=".$id);
-        if($user->role == 5){
-            $perawat = $this->perawat_m->get_row("id=".$id);
-            $this->nilai_mengaji_m->delete_by("id_perawat=".$perawat->id_perawat);
-            $this->nilai_sholat_m->delete_by("id_perawat=".$perawat->id_perawat);
-            $this->nilai_tertulis_m->delete_by("id_perawat=".$perawat->id_perawat);
-            $this->wawancara_m->delete_by("id_perawat=".$perawat->id_perawat);
-            $this->perawat_m->delete($perawat->id_perawat);
-            if($this->user_m->delete($id)){
-                echo "<script>alert('User berhasil dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
-                exit;
-            }else{
-                echo "<script>alert('User gagal dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
-                exit;
-            }
-        }else{
-            if($this->user_m->delete($id)){
-                echo "<script>alert('User berhasil dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
-                exit;
-            }else{
-                echo "<script>alert('User gagal dihapus');window.location = ".json_encode(site_url('Admin')).";</script>";
-                exit;
-            }
-        }
-    }
-
-    public function perawat()
-    {
-        $this->data['title'] ='Admin | Perawat';
-        $this->data['content'] = 'admin/perawat';
-        $this->data['active'] = 1;
-        $this->data['perawat'] = $this->perawat_m->get();
-
-        $this->load->view('admin/template/template', $this->data);
-    }
-
-    public function updatePerawat($id)
-    {
-        $this->data['perawat'] = $this->perawat_m->get_row("id_perawat=".$id);
+        $id = $this->session->userdata('id');
+        $this->data['perawat'] = $this->perawat_m->get_row("id=".$id);
 
         if($this->POST("submit")){
             $data = [
@@ -181,147 +54,108 @@ class Perawat extends MY_Controller {
                 'jenis_kelamin' => $this->POST('jenis_kelamin')
             ];
 
-            if($this->perawat_m->update($id, $data)){
-                echo "<script>alert('Perawat berhasil diupdate');window.location = ".json_encode(site_url('Admin/perawat')).";</script>";
+            if($this->perawat_m->update_where("id=".$id, $data)){
+                echo "<script>alert('Data berhasil diupdate');window.location = ".json_encode(site_url('Perawat/updatePerawat')).";</script>";
                 exit;
             }else{
-                echo "<script>alert('Perawat gagal diupdate');window.location = ".json_encode(site_url('Admin/updatePerawat/'.$id)).";</script>";
+                echo "<script>alert('Data gagal diupdate');window.location = ".json_encode(site_url('Perawat/updatePerawat')).";</script>";
                 exit;
             }
         }
 
-        $this->data['title'] ='Admin | Update Perawat';
-        $this->data['content'] = 'admin/updatePerawat';
+        $this->data['title'] ='Perawat | Update Data';
+        $this->data['content'] = 'perawat/updatePerawat';
         $this->data['active'] = 1;
         
-        $this->load->view('admin/template/template', $this->data);
+        $this->load->view('perawat/template/template', $this->data);
     }
 
-    public function nilaiMengaji()
+    public function sertifikat()
     {
-        $this->data['title'] ='Admin | Nilai Mengaji';
-        $this->data['content'] = 'admin/nilaiMengaji';
+        $user = $this->perawat_m->get_row("id=".$this->session->userdata('id'));
+        $this->data['sertifikat'] = $this->sertifikat_m->getDataJoin(['perawat'], ['perawat.id_perawat = sertifikat.id_perawat'],"sertifikat.id_perawat=".$user->id_perawat);
+
+        $this->data['title'] ='Perawat | Sertifikat';
+        $this->data['content'] = 'perawat/sertifikat';
         $this->data['active'] = 2;
-        $this->data['perawat'] = $this->nilai_mengaji_m->getDataJoin(['perawat'],['perawat.id_perawat = nilai_mengaji.id_perawat']);
-
-        $this->load->view('admin/template/template', $this->data);
+        
+        $this->load->view('perawat/template/template', $this->data);
     }
 
-    public function updateNilaiMengaji($id)
+    public function addSertifikat()
     {
-        $this->data['perawat'] = $this->nilai_mengaji_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_mengaji.id_perawat'],"perawat.id_perawat=".$id);
-        if($this->POST("submit")){
-            $data = [
-                'ilmu_tajwid'=>$this->POST('ilmu_tajwid'),
-                'lapal'=>$this->POST('lapal')
-            ];
+        $user = $this->perawat_m->get_row("id=".$this->session->userdata('id'));
 
-            if($this->nilai_mengaji_m->update_where("id_perawat=".$id, $data)){
-                echo "<script>alert('Nilai Mengaji berhasil diupdate');window.location = ".json_encode(site_url('Admin/nilaiMengaji')).";</script>";
+        if($this->POST('submit'))
+        {
+            $sertifikat = $this->uploadFile($this->POST('nama_sertifikat'), 'Admin/img', 'sertifikat');
+
+            $data = array(
+                'id_perawat' => $user->id_perawat,
+                'nama_sertifikat' => $this->POST('nama_sertifikat'),
+                'sertifikat' => $sertifikat,
+            );
+
+            if($this->sertifikat_m->insert($data)){
+                echo "<script>alert('Sertifikat berhasil ditambah');window.location = ".json_encode(site_url('Perawat/sertifikat')).";</script>";
                 exit;
             }else{
-                echo "<script>alert('Nilai Mengaji gagal diupdate');window.location = ".json_encode(site_url('Admin/updateNilaiMengaji/'.$id)).";</script>";
+                echo "<script>alert('Sertifikat gagal ditambah');window.location = ".json_encode(site_url('Perawat/addSertifikat')).";</script>";
                 exit;
             }
         }
 
-        $this->data['title'] ='Admin | Update Nilai Mengaji';
-        $this->data['content'] = 'admin/updateNilaiMengaji';
+        $this->data['content'] = 'perawat/addSertifikat';
+        $this->data['title'] = 'Perawat | Add Sertifikat';
         $this->data['active'] = 2;
-        $this->load->view('admin/template/template', $this->data);
+        $this->load->view('perawat/template/template',$this->data);
     }
 
-    public function nilaiSholat()
+    public function updateSertifikat($id)
     {
-        $this->data['title'] ='Admin | Nilai Praktik Sholat';
-        $this->data['content'] = 'admin/nilaiSholat';
-        $this->data['active'] = 3;
-        $this->data['perawat'] = $this->nilai_sholat_m->getDataJoin(['perawat'],['perawat.id_perawat = nilai_praktek_sholat.id_perawat']);
+        $sertifikat = $this->sertifikat_m->get_row("id_sertifikat=".$id);
+        $this->data['sertifikat'] = $sertifikat;
 
-        $this->load->view('admin/template/template', $this->data);
-    }
+        if($this->POST('submit'))
+        {
+            if($_FILES['sertifikat']['size'] == 0){
+                $sertifikat = $this->POST('temp_sertifikat');
+            }else{
+                $sertifikat = $this->uploadFile($this->POST('nama_sertifikat'), 'Admin/img', 'sertifikat');
+                unlink("assets/Admin/img/".$this->POST('temp_sertifikat'));
+            }
+            
+            $data = array(
+                'nama_sertifikat' => $this->POST('nama_sertifikat'),
+                'sertifikat' => $sertifikat,
+            );
 
-    public function updateNilaiSholat($id)
-    {
-        $this->data['perawat'] = $this->nilai_sholat_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_praktek_sholat.id_perawat'],"perawat.id_perawat=".$id);
-
-        if($this->POST("submit")){
-            $data = [
-                'niat'=>$this->POST('niat'),
-                'bacaan_surat'=>$this->POST('bacaan_surat'),
-                'gerakan'=>$this->POST('gerakan')
-            ];
-
-            if($this->nilai_sholat_m->update_where("id_perawat=".$id, $data)){
-                echo "<script>alert('Nilai Praktek Sholat berhasil diupdate');window.location = ".json_encode(site_url('Admin/nilaiSholat')).";</script>";
+            if($this->sertifikat_m->update($id, $data)){
+                echo "<script>alert('Sertifikat berhasil diupdate');window.location = ".json_encode(site_url('Perawat/sertifikat')).";</script>";
                 exit;
             }else{
-                echo "<script>alert('Nilai Praktek Sholat gagal diupdate');window.location = ".json_encode(site_url('Admin/updateNilaiSholat/'.$id)).";</script>";
+                echo "<script>alert('Sertifikat gagal diupdate');window.location = ".json_encode(site_url('Perawat/addSertifikat')).";</script>";
                 exit;
             }
         }
 
-        $this->data['title'] ='Admin | Update Nilai Praktek Sholat';
-        $this->data['content'] = 'admin/updateNilaiSholat';
-        $this->data['active'] = 3;
-        $this->load->view('admin/template/template', $this->data);
+        $this->data['content'] = 'perawat/updateSertifikat';
+        $this->data['title'] = 'Perawat | Update Sertifikat';
+        $this->data['active'] = 2;
+        $this->load->view('perawat/template/template',$this->data);
     }
 
-    public function nilaiTertulis()
+    public function deleteSertifikat($id)
     {
-        $this->data['title'] ='Admin | Nilai Tertulis';
-        $this->data['content'] = 'admin/nilaiTertulis';
-        $this->data['active'] = 4;
-        $this->data['perawat'] = $this->nilai_tertulis_m->getDataJoin(['perawat'],['perawat.id_perawat = nilai_tertulis.id_perawat']);
-
-        $this->load->view('admin/template/template', $this->data);
-    }
-
-    public function updateNilaiTertulis($id)
-    {
-        $this->data['perawat'] = $this->nilai_tertulis_m->getDataJoinWhere(['perawat'],['perawat.id_perawat = nilai_tertulis.id_perawat'],"perawat.id_perawat=".$id);
-
-        if($this->POST("submit")){
-            $data = [
-                'pengetahuan_umum'=>$this->POST('pengetahuan_umum'),
-                'nama_penyakit'=>$this->POST('nama_penyakit'),
-                'kode_penyakit'=>$this->POST('kode_penyakit'),
-                'indikator_rumahsakit'=>$this->POST('indikator_rumahsakit')
-            ];
-
-            if($this->nilai_tertulis_m->update_where("id_perawat=".$id, $data)){
-                echo "<script>alert('Nilai Tertulis berhasil diupdate');window.location = ".json_encode(site_url('Admin/nilaiTertulis')).";</script>";
-                exit;
-            }else{
-                echo "<script>alert('Nilai Tertulis gagal diupdate');window.location = ".json_encode(site_url('Admin/updateNilaiTertulis/'.$id)).";</script>";
-                exit;
-            }
+        $sertifikat = $this->sertifikat_m->get_row("id_sertifikat=".$id);
+        if($this->sertifikat_m->delete($id)){
+            unlink("assets/Admin/img/".$sertifikat->sertifikat);
+            echo "<script>alert('Sertifikat berhasil dihapus');window.location = ".json_encode(site_url('Perawat/sertifikat')).";</script>";
+            exit;
+        }else{
+            echo "<script>alert('Sertifikat gagal dihapus');window.location = ".json_encode(site_url('Perawat/sertifikat')).";</script>";
+            exit;
         }
-
-        $this->data['title'] ='Admin | Update Nilai Tertulis';
-        $this->data['content'] = 'admin/updateNilaiTertulis';
-        $this->data['active'] = 4;
-        $this->load->view('admin/template/template', $this->data);
-    }
-
-    public function hasilPerhitungan()
-    {
-        $this->data['title'] ='Admin | Hasil Perhitungan';
-        $this->data['content'] = 'admin/hasilPerhitungan';
-        $this->data['active'] = 5;
-        $this->data['perawat'] = $this->perawat_m->getDataJoin(
-            ['nilai_tertulis','nilai_mengaji','nilai_praktek_sholat', 'wawancara'],
-            [
-                'perawat.id_perawat = nilai_tertulis.id_perawat',
-                'perawat.id_perawat = nilai_mengaji.id_perawat',
-                'perawat.id_perawat = nilai_praktek_sholat.id_perawat',
-                'perawat.id_perawat = wawancara.id_perawat'
-                ]
-        ); 
-
-        $this->data['sertifikat'] = $this->sertifikat_m->getDataJoin(['perawat'],['sertifikat.id_perawat = perawat.id_perawat']);
-
-        $this->load->view('admin/template/template', $this->data);
     }
 }
 

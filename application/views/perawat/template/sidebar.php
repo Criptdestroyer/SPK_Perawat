@@ -12,22 +12,13 @@
                         </div>
                     </li>
                     <li class="<?php if($active == 0) echo "active"?>">
-                        <a href="<?=site_url('admin')?>"><i class="fa fa-th-large"></i> <span class="nav-label">User</span></a>
+                        <a href="<?=site_url('perawat')?>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
                     </li>
                     <li class="<?php if($active == 1) echo "active"?>">
-                        <a href="<?=site_url('admin/perawat')?>"><i class="fa fa-diamond"></i> <span class="nav-label">perawat</span></a>
+                        <a href="<?=site_url('perawat/updatePerawat')?>"><i class="fa fa-diamond"></i> <span class="nav-label">perawat</span></a>
                     </li>
                     <li class="<?php if($active == 2) echo "active"?>">
-                        <a href="<?=site_url('admin/nilaiMengaji')?>"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Nilai Mengaji</span></span></a>
-                    </li>
-                    <li class="<?php if($active == 3) echo "active"?>">
-                        <a href="<?=site_url('admin/nilaiSholat')?>"><i class="fa fa-pie-chart"></i> <span class="nav-label">Nilai Praktik Sholat</span></a>
-                    </li>
-                    <li class="<?php if($active == 4) echo "active"?>">
-                        <a href="<?=site_url('admin/nilaiTertulis')?>"><i class="fa fa-flask"></i> <span class="nav-label">Nilai Tertulis</span></a>
-                    </li>
-                    <li class="<?php if($active == 5) echo "active"?>">
-                        <a href="<?=site_url('admin/hasilPerhitungan')?>"><i class="fa fa-edit"></i> <span class="nav-label">Hasil Perhitungan</span></a>
+                        <a href="<?=site_url('perawat/sertifikat')?>"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Sertifikat</span></span></a>
                     </li>
             </div>
         </nav>

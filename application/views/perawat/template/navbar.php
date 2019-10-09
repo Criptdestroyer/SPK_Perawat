@@ -6,7 +6,7 @@
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li style="padding: 20px">
-                    <span class="m-r-sm text-muted welcome-message">Welcome to SPK Admin.</span>
+                    <span class="m-r-sm text-muted welcome-message">Welcome to SPK Perawat.</span>
                 </li>
                 <li>
                     <a href="<?=site_url('logout')?>">

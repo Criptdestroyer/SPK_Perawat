@@ -7,7 +7,7 @@ class Sertifikat_m extends MY_Model {
     {
         parent::__construct();
         $this->data['table_name'] = 'sertifikat';
-        $this->data['primary_key'] = 'id';
+        $this->data['primary_key'] = 'id_sertifikat';
     }
 }
 

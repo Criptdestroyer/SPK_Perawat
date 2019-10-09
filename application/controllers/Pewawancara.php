@@ -15,6 +15,7 @@ class Pewawancara extends MY_Controller {
         {
             $this->session->unset_userdata('username');
             $this->session->unset_userdata('id_role');
+            $this->session->unset_userdata('id');
             echo "<script>alert('you must login first');window.location = ".json_encode(site_url('Login')).";</script>";
             exit;
         }
