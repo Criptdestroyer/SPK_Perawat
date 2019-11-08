@@ -14,7 +14,11 @@
     <link href="<?= base_url() ?>assets/Admin/css/style.css" rel="stylesheet">
 </head>
 
-<body class="gray-bg">
+<body class="gray-bg" style="background-image: url('<?= base_url() ?>assets/Admin/img/rs.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-size: 100% 100%;">
 
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
