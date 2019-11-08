@@ -3,7 +3,7 @@
                     Universitas Sriwijaya <strong>Sistem Informasi</strong>
                 </div>
                 <div>
-                    <strong>Copyright</strong> Dina Agustina &copy; 2019
+                    <strong>Copyright</strong> RS Islam Ar-Rasyid Palembang &copy; 2019
                 </div>
             </div>
         </div>
