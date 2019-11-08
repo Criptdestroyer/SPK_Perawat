@@ -531,16 +531,9 @@ class Admin extends MY_Controller {
 
             $result = $this->db->query("TRUNCATE TABLE rangking");
             for($i=0; $i<count($id_perawat); $i++){
-                if(is_nan($leavingFlow[$i])){
-                    $leavingFlow[$i] = 0;
-                }
-
-                if(is_nan($enteringFlow[$i])){
-                    $enteringFlow[$i] = 0;
-                }
-
                 if(is_nan($netFlow[$i])){
-                    $netFlow[$i] = 0;
+                    echo "<script>alert('Terjadi kesalahan perhitungan, harap cek kembali nilai yang tertera');window.location = ".json_encode(site_url('Admin/hasilPerhitungan')).";</script>";
+                    die();
                 }
                 $data = [
                     'no' => $i+1,
