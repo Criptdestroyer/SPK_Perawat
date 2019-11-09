@@ -6418,6 +6418,12 @@ table.issue-tracker tbody tr td {
 .team-members {
   margin: 10px 0;
 }
+
+img.rounded-logo{
+  width: 150px;
+  height: 150px; 
+}
+
 .team-members img.rounded-circle {
   width: 42px;
   height: 42px;

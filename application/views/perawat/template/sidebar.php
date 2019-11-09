@@ -5,10 +5,7 @@
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <img alt="image" class="rounded-circle" src="<?= base_url() ?>assets/Admin/img/profile_small.jpg"/>
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="block m-t-xs font-bold"><?=$username?></span>
-                            </a>
+                            <img alt="image" class="rounded-logo" src="<?= base_url() ?>assets/Admin/img/logo.png"/>
                         </div>
                     </li>
                     <li class="<?php if($active == 0) echo "active"?>">
