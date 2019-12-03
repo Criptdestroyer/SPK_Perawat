@@ -419,18 +419,15 @@ class Admin extends MY_Controller {
             $tertulis = $this->POST('tertulis');
             $wawancara = $this->POST('wawancara');
             $sertifikat = $this->POST('sertifikat');
-
             $mengaji2 = $this->POST('mengaji');
             $sholat2 = $this->POST('sholat');
             $tertulis2 = $this->POST('tertulis');
             $wawancara2 = $this->POST('wawancara');
             $sertifikat2 = $this->POST('sertifikat');
-
             sort($mengaji);
             sort($sholat);
             sort($tertulis);
             sort($wawancara);
-
             $qMengaji = (($mengaji[count($mengaji)-1] - $mengaji[0]) - ($mengaji[1] - $mengaji[0]));
             $tresholdMengaji = round($qMengaji - ($qMengaji/count($mengaji)), 3);
             // echo $tresholdMengaji."\n";
@@ -446,13 +443,10 @@ class Admin extends MY_Controller {
             $qWawancara = (($wawancara[count($wawancara)-1] - $wawancara[0]) - ($wawancara[1] - $wawancara[0]));
             $tresholdWawancara = round($qWawancara - ($qWawancara/count($wawancara)), 3);
             // echo $tresholdWawancara."\n";
-
             $qSertifikat = (($sertifikat[count($sertifikat)-1] - $sertifikat[0]) - ($sertifikat[1] - $sertifikat[0]));
             $tresholdSertifikat = round($qSertifikat - ($qSertifikat/count($sertifikat)), 3);
             // echo $tresholdSertifikat."\n";
-
             $kriteria = [0.1, 0.1, 0.5, 0.05, 0.25];
-
             $preferensiMengaji;
             for($i=0; $i<count($mengaji2); $i++){
                 for($j=0; $j<count($mengaji2); $j++){
@@ -468,7 +462,6 @@ class Admin extends MY_Controller {
                     }
                 }
             }
-
             $preferensiSholat;
             for($i=0; $i<count($sholat2); $i++){
                 for($j=0; $j<count($sholat2); $j++){
@@ -484,7 +477,6 @@ class Admin extends MY_Controller {
                     }
                 }
             }
-
             $preferensiTertulis;
             for($i=0; $i<count($tertulis2); $i++){
                 for($j=0; $j<count($tertulis2); $j++){
@@ -500,7 +492,6 @@ class Admin extends MY_Controller {
                     }
                 }
             }
-
             $preferensiSertifikat;
             for($i=0; $i<count($sertifikat2); $i++){
                 for($j=0; $j<count($sertifikat2); $j++){
@@ -516,7 +507,6 @@ class Admin extends MY_Controller {
                     }
                 }
             }
-
             $preferensiWawancara;
             for($i=0; $i<count($wawancara2); $i++){
                 for($j=0; $j<count($wawancara2); $j++){
@@ -544,12 +534,10 @@ class Admin extends MY_Controller {
                     }
                 }
             }
-
             $id_perawat = $this->POST('id_perawat');
             $leavingFlow;
             $enteringFlow;
             $netFlow;
-
             for($i=0; $i<count($wawancara2); $i++){
                 $leavingFlow[$i] = 0;
                 $enteringFlow[$i] = 0;
@@ -574,15 +562,12 @@ class Admin extends MY_Controller {
                         $temp = $netFlow[$j];
                         $netFlow[$j] = $netFlow[$j+1];
                         $netFlow[$j+1] = $temp;
-
                         $temp = $id_perawat[$j];
                         $id_perawat[$j] = $id_perawat[$j+1];
                         $id_perawat[$j+1] = $temp;
-
                         $temp = $leavingFlow[$j];
                         $leavingFlow[$j] = $leavingFlow[$j+1];
                         $leavingFlow[$j+1] = $temp;
-
                         $temp = $enteringFlow[$j];
                         $enteringFlow[$j] = $enteringFlow[$j+1];
                         $enteringFlow[$j+1] = $temp;
@@ -590,12 +575,10 @@ class Admin extends MY_Controller {
                     }
                 }
             }
-
             // print_r($id_perawat);echo "<br>";
             // print_r($leavingFlow);echo "<br>";
             // print_r($enteringFlow);echo "<br>";
             // print_r($netFlow);echo "<br>";
-
             $result = $this->db->query("TRUNCATE TABLE rangking");
             for($i=0; $i<count($id_perawat); $i++){
                 if(is_nan($netFlow[$i])){
@@ -609,15 +592,9 @@ class Admin extends MY_Controller {
                     'entering_flow' => round(((1/5) * $enteringFlow[$i]), 3),
                     'net_flow' => $netFlow[$i] 
                 ];
-
                 $this->rangking_m->insert($data);
             }
-            
-            $this->data['title'] ='Admin | Rangking';
-            $this->data['content'] = 'admin/rangking';
-            $this->data['active'] = 7;
-            $this->data['perawat'] = $this->rangking_m->getDataJoin(['perawat'],['perawat.id_perawat = rangking.id_perawat']);
-            $this->load->view('admin/template/template', $this->data);
+            redirect("Admin/rangking");
         }catch(Exception $e){
             echo "<script>alert('Terjadi kesalahan perhitungan, harap cek kembali nilai yang tertera');window.location = ".json_encode(site_url('Admin/hasilPerhitungan')).";</script>";
             die();
