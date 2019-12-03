@@ -16,6 +16,7 @@ class Admin extends MY_Controller {
         $this->load->model('wawancara_m');
         $this->load->model('kriteria_m');
         $this->load->model('rangking_m');
+        $this->load->model('timeline_m');
 
         $this->data['username'] = $this->session->userdata('username');
         $this->data['id_role']  = $this->session->userdata('id_role');
@@ -51,31 +52,40 @@ class Admin extends MY_Controller {
                     'role' => $this->POST('role')
                 ];
 
-                if($this->POST('role') == 5){
-                    if($this->user_m->insert($data)){
-                        $user = $this->user_m->get_row($data);
-                        $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama]);
-                        $perawat = $this->perawat_m->get_row("id=".$user->id);
+                $cek = $this->user_m->get_num_row("username='".$this->POST('username')."' or email='".$this->POST('email')."'");
 
-                        $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                        echo "<script>alert('User berhasil ditambah');window.location = ".json_encode(site_url('Admin')).";</script>";
-                        exit;
+                if($cek <= 0){
+                    if($this->POST('role') == 4){
+                        if($this->user_m->insert($data)){
+                            $user = $this->user_m->get_row($data);
+                            $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama]);
+                            $perawat = $this->perawat_m->get_row("id=".$user->id);
+    
+                            $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                            $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                            $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                            $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                            echo "<script>alert('User berhasil ditambah');window.location = ".json_encode(site_url('Admin')).";</script>";
+                            exit;
+                        }else{
+                            echo "<script>alert('User gagal ditambah');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
+                            exit;
+                        }
                     }else{
-                        echo "<script>alert('User gagal ditambah');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
-                        exit;
+                        if($this->user_m->insert($data)){
+                            echo "<script>alert('User berhasil ditambah');window.location = ".json_encode(site_url('Admin')).";</script>";
+                            exit;
+                        }else{
+                            echo "<script>alert('User gagal ditambah');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
+                            exit;
+                        }
                     }
                 }else{
-                    if($this->user_m->insert($data)){
-                        echo "<script>alert('User berhasil ditambah');window.location = ".json_encode(site_url('Admin')).";</script>";
-                        exit;
-                    }else{
-                        echo "<script>alert('User gagal ditambah');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
-                        exit;
-                    }
+                    echo "<script>alert('Username atau Email telah digunakan');window.location = ".json_encode(site_url('Admin/addUser')).";</script>";
+                    exit;
                 }
+
+                
             }
         }
 
@@ -97,49 +107,63 @@ class Admin extends MY_Controller {
                 'role' => $this->POST('role')
             ];
 
-            if($this->POST('role') == 5 && $this->data['user']->role != 5){
-                if($this->user_m->update($id,$data)){
-                    $user = $this->user_m->get_row($data);
-                    $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama]);
-                    $perawat = $this->perawat_m->get_row("id=".$user->id);
-
-                    $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
-                    echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
-                    exit;
-                }else{
-                    echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
-                    exit;
-                }
-            }else{
-                if($this->POST('role') == 4 && $this->data['user']->role != 4){
-                    $perawat = $this->perawat_m->get_row("id=".$id);
-                    $this->nilai_mengaji_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->nilai_sholat_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->nilai_tertulis_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->wawancara_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->sertifikat_m->delete_by("id_perawat=".$perawat->id_perawat);
-                    $this->perawat_m->delete_by("id=".$id);
-                    if($this->user_m->update($id, $data)){
-                        echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
-                        exit;
-                    }else{
-                        echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
-                        exit;
-                    }
-                }else{
-                    if($this->user_m->update($id, $data)){
-                        echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
-                        exit;
-                    }else{
-                        echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
-                        exit;
-                    }
+            $cek = $this->user_m->get("username='".$this->POST('username')."' or email='".$this->POST('email')."'");
+            $num = 0;
+            foreach($cek as $c){
+                if($c->id != $id){
+                    $num++;
                 }
             }
+            if($num <= 0){
+                if($this->POST('role') == 4 && $this->data['user']->role != 4){
+                    if($this->user_m->update($id,$data)){
+                        $user = $this->user_m->get_row($data);
+                        $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama]);
+                        $perawat = $this->perawat_m->get_row("id=".$user->id);
+    
+                        $this->nilai_mengaji_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                        $this->nilai_sholat_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                        $this->nilai_tertulis_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                        $this->wawancara_m->insert(["id_perawat"=>$perawat->id_perawat]);
+                        echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
+                        exit;
+                    }else{
+                        echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
+                        exit;
+                    }
+                }else{
+                    if($this->POST('role') != 4 && $this->data['user']->role == 4){
+                        $perawat = $this->perawat_m->get_row("id=".$id);
+                        $this->nilai_mengaji_m->delete_by("id_perawat=".$perawat->id_perawat);
+                        $this->nilai_sholat_m->delete_by("id_perawat=".$perawat->id_perawat);
+                        $this->nilai_tertulis_m->delete_by("id_perawat=".$perawat->id_perawat);
+                        $this->wawancara_m->delete_by("id_perawat=".$perawat->id_perawat);
+                        $this->sertifikat_m->delete_by("id_perawat=".$perawat->id_perawat);
+                        $this->perawat_m->delete_by("id=".$id);
+                        if($this->user_m->update($id, $data)){
+                            echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
+                            exit;
+                        }else{
+                            echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
+                            exit;
+                        }
+                    }else{
+                        if($this->user_m->update($id, $data)){
+                            echo "<script>alert('User berhasil diedit');window.location = ".json_encode(site_url('Admin')).";</script>";
+                            exit;
+                        }else{
+                            echo "<script>alert('User gagal diedit');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
+                            exit;
+                        }
+                    }
+                }
+            }else{
+                echo "<script>alert('Username atau Email telah digunakan');window.location = ".json_encode(site_url('Admin/editUser/'.$id)).";</script>";
+                exit;
+            }
 
+            
+            // exit;
         }
         $this->data['title'] = 'Admin | Edit User';
         $this->data['content'] = 'admin/editUser';
@@ -151,7 +175,7 @@ class Admin extends MY_Controller {
     public function deleteUser($id)
     {
         $user = $this->user_m->get_row("id=".$id);
-        if($user->role == 5){
+        if($user->role == 4){
             $perawat = $this->perawat_m->get_row("id=".$id);
             $this->nilai_mengaji_m->delete_by("id_perawat=".$perawat->id_perawat);
             $this->nilai_sholat_m->delete_by("id_perawat=".$perawat->id_perawat);
@@ -343,6 +367,39 @@ class Admin extends MY_Controller {
 
         $this->load->view('admin/template/template', $this->data);
     }
+
+    public function timeline()
+    {
+        $this->data['title'] ='Admin | Timeline';
+        $this->data['content'] = 'admin/timeline';
+        $this->data['active'] = 6;
+
+        if($this->POST("submit")){
+            $data = [
+                'status' => $this->POST('status')
+            ];
+
+            if($this->timeline_m->update(1, $data)){
+                echo "<script>alert('Timeline berhasil diupdate');window.location = ".json_encode(site_url('Admin/timeline')).";</script>";
+                exit;
+            }else{
+                echo "<script>alert('Timeline gagal diupdate');window.location = ".json_encode(site_url('Admin/timeline')).";</script>";
+                exit;
+            }
+        }
+
+        $this->data['timeline'] = $this->timeline_m->get_row("timeline=timeline");
+        $this->load->view('admin/template/template', $this->data);
+    }
+
+    public function rangking(){
+        $this->data['title'] ='Admin | Rangking';
+        $this->data['content'] = 'admin/rangking';
+        $this->data['active'] = 7;
+        $this->data['perawat'] = $this->rangking_m->getDataJoin(['perawat'],['perawat.id_perawat = rangking.id_perawat']);
+        $this->load->view('admin/template/template', $this->data);
+    }
+
 
     public function hitung()
     {
@@ -538,18 +595,17 @@ class Admin extends MY_Controller {
                 $data = [
                     'no' => $i+1,
                     'id_perawat' => $id_perawat[$i],
-                    'leaving_flow' => $leavingFlow[$i],
-                    'entering_flow' => $enteringFlow[$i],
+                    'leaving_flow' => round(((1/5) * $leavingFlow[$i]), 3),
+                    'entering_flow' => round(((1/5) * $enteringFlow[$i]), 3),
                     'net_flow' => $netFlow[$i] 
                 ];
 
                 $this->rangking_m->insert($data);
             }
-
-
+            
             $this->data['title'] ='Admin | Rangking';
             $this->data['content'] = 'admin/rangking';
-            $this->data['active'] = 5;
+            $this->data['active'] = 7;
             $this->data['perawat'] = $this->rangking_m->getDataJoin(['perawat'],['perawat.id_perawat = rangking.id_perawat']);
             $this->load->view('admin/template/template', $this->data);
         }catch(Exception $e){
@@ -558,6 +614,8 @@ class Admin extends MY_Controller {
         }
         
     }
+
+    
 }
 
 /* End of file Admin.php */

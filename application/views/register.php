@@ -19,11 +19,11 @@
 
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
-            <div>
-                <h1 class="logo-name">SPK</h1>
-            </div>
-            <h3>Register</h3>
-            <form class="m-t" role="form" method="post" action="<?=site_url('register')?>">
+            <!-- <div>
+                <h4 class="logo-name">SPK</h4>
+            </div> -->
+            <h2>Register</h2>
+            <form class="m-t" role="form" method="post" action="<?=site_url('register')?>" accept-charset="utf-8" enctype="multipart/form-data">
                 <div class="form-group">
                     <input type="text" name="name" class="form-control" placeholder="Name" required="">
                 </div>
@@ -35,6 +35,13 @@
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="Password" required="">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="nohp" class="form-control" placeholder="No Hp" required="">
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10"><input type="file" id="file" class="form-control" name="Ijazah" required></div>
+                    <label class="col-form-label" style="color:white"><h5>Ijazah</h5></label>
                 </div>
                 <button type="submit" name="submit" value="submit" class="btn btn-primary block full-width m-b">Register</button>
 

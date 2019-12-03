@@ -31,8 +31,7 @@
                                             <option value="1" <?php if($user->role == 1) echo "selected=selected"?>>Admin</option>
                                             <option value="2" <?php if($user->role == 2) echo "selected=selected"?>>Direktur</option>
                                             <option value="3" <?php if($user->role == 3) echo "selected=selected"?>>Pewancara</option>
-                                            <option value="4" <?php if($user->role == 4) echo "selected=selected"?>>Perawat non valid</option>
-                                            <option value="5" <?php if($user->role == 5) echo "selected=selected"?>>Perawat valid</option>
+                                            <option value="4" <?php if($user->role == 4) echo "selected=selected"?>>Perawat</option>
                                         </select>
                                     </div>
                                 </div>

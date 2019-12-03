@@ -22,6 +22,7 @@
                             <th>Leaving Flow</th>
                             <th>Entering Flow</th>
                             <th>Net Flow</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +36,15 @@
                             <td><?=$p->leaving_flow?></td>
                             <td><?=$p->entering_flow?></td>
                             <td><?=$p->net_flow?></td>
+                            <td>
+                                <?php
+                                    if($p->net_flow >= 0){
+                                        echo "LULUS";
+                                    }else{
+                                        echo "TIDAK LULUS";
+                                    }
+                                ?>
+                            </td>
                         </tr>
                     <?php
                         }
@@ -47,6 +57,7 @@
                             <th>Leaving Flow</th>
                             <th>Entering Flow</th>
                             <th>Net Flow</th>
+                            <th>Status</th>
                     </tfoot>
                     </table>
                         </div>

@@ -45,9 +45,7 @@
                                     }else if($p->role == 3){
                                         echo "Pewancara";
                                     }else if($p->role == 4){
-                                        echo "Perawat non valid";
-                                    }else if($p->role == 5){
-                                        echo "Perawat valid";
+                                        echo "Perawat";
                                     }
                                 ?>
                             </td>

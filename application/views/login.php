@@ -23,11 +23,9 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-
                 <h1 class="logo-name">SPK</h1>
-
             </div>
-            <h3>Log in</h3>
+            <h2>Log in</h2>
             <form class="m-t" role="form" method="post" action="<?=site_url("login")?>">
                 <div class="form-group">
                     <input type="username" name="username" class="form-control" placeholder="Username" required="">

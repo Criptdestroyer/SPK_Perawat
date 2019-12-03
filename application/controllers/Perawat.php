@@ -9,24 +9,20 @@ class Perawat extends MY_Controller {
         $this->load->library('session');
         $this->load->model('perawat_m');
         $this->load->model('sertifikat_m');
+        $this->load->model('timeline_m');
+        $this->load->model('rangking_m');
 
         $this->data['username'] = $this->session->userdata('username');
         $this->data['id_role']  = $this->session->userdata('id_role');
-        if(!isset($this->data['username']) || $this->data['id_role'] != 5)
+        if(!isset($this->data['username']) || $this->data['id_role'] != 4)
         {
-            if($this->data['id_role'] == 4){
-                $this->session->unset_userdata('username');
-                $this->session->unset_userdata('id_role');
-                $this->session->unset_userdata('id');
-                echo "<script>alert('Anda belum tervalidasi oleh admin. silahkan coba login beberapa saat lagi');window.location = ".json_encode(site_url('Login')).";</script>";
-                exit;
-            }else{
-                $this->session->unset_userdata('username');
-                $this->session->unset_userdata('id_role');
-                $this->session->unset_userdata('id');
-                echo "<script>alert('you must login first');window.location = ".json_encode(site_url('Login')).";</script>";
-                exit;
-            }
+            
+            $this->session->unset_userdata('username');
+            $this->session->unset_userdata('id_role');
+            $this->session->unset_userdata('id');
+            echo "<script>alert('you must login first');window.location = ".json_encode(site_url('Login')).";</script>";
+            exit;
+            
         }
     }
 
@@ -36,7 +32,9 @@ class Perawat extends MY_Controller {
         $this->data['content'] = 'perawat/main';
         $this->data['active'] = 0;
         $this->data['perawat'] = $this->perawat_m->get_row("id=".$this->session->userdata('id'));
-
+        $this->data['hasil'] = $this->rangking_m->get_row("id_perawat=".$this->data['perawat']->id_perawat);
+        $this->data['timeline'] = $this->timeline_m->get_row("id=1");
+        // print_r($this->data['hasil']);
         $this->load->view('perawat/template/template', $this->data);
     }
 

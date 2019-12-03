@@ -24,7 +24,13 @@
                         <a href="<?=site_url('admin/nilaiTertulis')?>"><i class="fa fa-flask"></i> <span class="nav-label">Nilai Tertulis</span></a>
                     </li>
                     <li class="<?php if($active == 5) echo "active"?>">
-                        <a href="<?=site_url('admin/hasilPerhitungan')?>"><i class="fa fa-edit"></i> <span class="nav-label">Hasil Perhitungan</span></a>
+                        <a href="<?=site_url('admin/hasilPerhitungan')?>"><i class="fa fa-edit"></i> <span class="nav-label">Perhitungan</span></a>
+                    </li>
+                    <li class="<?php if($active == 7) echo "active"?>">
+                        <a href="<?=site_url('admin/rangking')?>"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rangking</span></a>
+                    </li>
+                    <li class="<?php if($active == 6) echo "active"?>">
+                        <a href="<?=site_url('admin/timeline')?>"><i class="fa fa-user"></i> <span class="nav-label">Timeline</span></a>
                     </li>
             </div>
         </nav>

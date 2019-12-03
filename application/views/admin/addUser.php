@@ -33,8 +33,7 @@
                                             <option value="1">Admin</option>
                                             <option value="2">Direktur</option>
                                             <option value="3">Pewancara</option>
-                                            <option value="4">Perawat non valid</option>
-                                            <option value="5">Perawat valid</option>
+                                            <option value="4">Perawat</option>
                                         </select>
                                     </div>
                                 </div>
