@@ -44,12 +44,23 @@ class Perawat extends MY_Controller {
         $this->data['perawat'] = $this->perawat_m->get_row("id=".$id);
 
         if($this->POST("submit")){
+            if($_FILES['ijazah']['size'] == 0){
+                $ijazah = $this->POST('temp_ijazah');
+            }else{
+                if($this->POST('temp_ijazah') != null){
+                    unlink("assets/Admin/img/".$this->POST('temp_ijazah'));
+                }
+                $ijazah = $this->uploadFile('ijazah_'.$this->data['perawat']->id, 'Admin/img', 'ijazah');
+            }
+            
+
             $data = [
                 "nama" => $this->POST("nama"),
                 "tanggal_lahir" => $this->POST("tanggal_lahir"),
                 'alamat' => $this->POST('alamat'),
                 'no_hp' => $this->POST('no_hp'),
-                'jenis_kelamin' => $this->POST('jenis_kelamin')
+                'jenis_kelamin' => $this->POST('jenis_kelamin'),
+                'ijazah' => $ijazah
             ];
 
             if($this->perawat_m->update_where("id=".$id, $data)){

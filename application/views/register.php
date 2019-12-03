@@ -40,7 +40,7 @@
                     <input type="text" name="nohp" class="form-control" placeholder="No Hp" required="">
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-10"><input type="file" id="file" class="form-control" name="Ijazah" required></div>
+                    <div class="col-sm-10"><input type="file" id="file" class="form-control" name="ijazah" required></div>
                     <label class="col-form-label" style="color:white"><h5>Ijazah</h5></label>
                 </div>
                 <button type="submit" name="submit" value="submit" class="btn btn-primary block full-width m-b">Register</button>

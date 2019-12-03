@@ -19,6 +19,7 @@
                             <th>Alamat</th>
                             <th>No HP</th>
                             <th>Jenis Kelamin</th>
+                            <th>Ijazah</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -34,6 +35,7 @@
                             <td><?=$p->alamat?></td>
                             <td><?=$p->no_hp?></td>
                             <td><?=$p->jenis_kelamin?></td>
+                            <td><a href="<?=base_url("assets/Admin/img/".$p->ijazah)?>"><?=$p->ijazah?></a></td>
                             <td>
                                 <a class="btn btn-warning" href="<?=site_url("Admin/updatePerawat/".$p->id_perawat)?>">Update</a>
                             </td>
@@ -50,6 +52,7 @@
                             <th>Alamat</th>
                             <th>No HP</th>
                             <th>Jenis Kelamin</th>
+                            <th>Ijazah</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>

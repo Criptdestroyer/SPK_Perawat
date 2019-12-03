@@ -54,7 +54,7 @@ class Register extends MY_Controller {
                 if($cek <= 0){
                     if($this->user_m->insert($data)){
                         $user = $this->user_m->get_row($data);
-                        $ijazah = $this->uploadFile("ijazah_".$user->nama, 'Admin/img', 'sertifikat');
+                        $ijazah = $this->uploadFile("ijazah_".$user->id, 'Admin/img', 'ijazah');
 
                         $this->perawat_m->insert(["id"=>$user->id, "nama"=>$user->nama, "no_hp"=>$this->POST('nohp'), "ijazah"=>$ijazah]);
                         $perawat = $this->perawat_m->get_row("id=".$user->id);

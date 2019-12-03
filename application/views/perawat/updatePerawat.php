@@ -11,7 +11,7 @@
                 <div class="col-lg-12">
                     <div class="ibox ">
                         <div class="ibox-content">
-                            <form method="post" action="<?=site_url('perawat/updatePerawat')?>">
+                            <form method="post" action="<?=site_url('perawat/updatePerawat')?>" accept-charset="utf-8" enctype="multipart/form-data">
                                 <input type="hidden" name="id" value="<?=$perawat->id_perawat?>">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Nama</label>
@@ -32,11 +32,31 @@
                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Jenis Kelamin</label>
                                     <div class="col-sm-10">
                                         <select class="form-control m-b" name="jenis_kelamin">
-                                            <option>Pilih Jenis Kelamin</option>
+                                            <option value="">Pilih Jenis Kelamin</option>
                                             <option value="Laki-laki" <?php if($perawat->jenis_kelamin == "Laki-laki") echo "selected=selected"?>>Laki-laki</option>
                                             <option value="Perempuan" <?php if($perawat->jenis_kelamin == "Perempuan") echo "selected=selected"?>>Perempuan</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Ijazah</label>
+                                    <?php
+                                        if($perawat->ijazah != null){
+                                            ?>
+                                                <div class="col-sm-10"><a href="<?=base_url("assets/Admin/img/".$perawat->ijazah)?>"><?=$perawat->ijazah?></a></div>
+                                            <?php
+                                        }else{
+                                            ?>
+                                                <div class="col-sm-10">Ijazah belum diupload</div>
+                                            <?php
+                                        }
+                                    ?>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Update Ijazah</label>
+                                    <div class="col-sm-10"><input type="file" id="file" class="form-control" name="ijazah"></div>
+                                    <input type="hidden" name="temp_ijazah" value="<?=$perawat->ijazah?>">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-4 col-sm-offset-2">
